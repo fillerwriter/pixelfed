@@ -31,6 +31,7 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Expires</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -40,6 +41,9 @@
                                 <!-- Client Name -->
                                 <td style="vertical-align: middle;">
                                     {{ token.name }}
+                                </td>
+                                <td>
+                                    {{ formatExpiresAt(token.expires_at) }}
                                 </td>
 
                                 <!-- Delete Button -->
@@ -155,6 +159,8 @@
 </template>
 
 <script>
+    import { format, parse } from 'date-fns';
+
     export default {
         /*
          * The component's data.
@@ -199,6 +205,11 @@
                 $('#modal-create-token').on('shown.bs.modal', () => {
                     $('#create-token-name').focus();
                 });
+            },
+
+            formatExpiresAt(dateString) {
+                // @TODO: use i18n helpers with date-fns
+                return format(parse(dateString), 'M/D/YYYY');
             },
 
             /**
